@@ -1,0 +1,63 @@
+mappedDataSet:
+  mappingName: module_SRCSYS_SALE_COMPONENT_SAT_SALE_LINE_ITEM
+  source:
+    dataStore:
+      connectionKey: HSTG
+    language: T-SQL
+    code: |
+      select src.*
+      from    (
+              select SALE_COMPONENT.OMD_RECORD_SOURCE + N'_' + convert(nvarchar(100), SALE_COMPONENT.SALE_COMPONENT_ID) as SALE_LINE_ITEM_SK,
+                  SALE_COMPONENT.OMD_CHANGE_DATETIME,
+                  case when SALE_COMPONENT.OMD_CDC_OPERATION = 'DELETED' then 'Y' else 'N' end as OMD_DELETED_RECORD,
+                  SALE_COMPONENT.COMPONENT_TYPE_ID,
+                  SALE_COMPONENT.CHANGE_AMOUNT,
+                  SALE_COMPONENT.OMD_INSERT_DATETIME,
+                  SALE_COMPONENT.OMD_INSERT_MODULE_INSTANCE_ID,
+                  SALE_COMPONENT.OMD_CHANGE_KEY
+              from EDW_Staging_Area.dbo.SRCSYS_SALE_COMPONENT SALE_COMPONENT
+              ) as src
+      where not exists (
+              select null
+              from EDW_Integration_Layer.dbo.SAT_SALE_LINE_ITEM
+              where SAT_SALE_LINE_ITEM.SALE_LINE_ITEM_SK = src.SALE_LINE_ITEM_SK
+                  and SAT_SALE_LINE_ITEM.OMD_CHANGE_KEY = src.OMD_CHANGE_KEY
+              );
+  target:
+    dataStore:
+      connectionKey: INT
+    objectSchema: dbo
+    objectName: SAT_SALE_LINE_ITEM
+  mappedDataItems:
+    - sourceDataItem:
+        columnName: SALE_LINE_ITEM_SK
+      targetColumn:
+        columnName: SALE_LINE_ITEM_SK
+    - sourceDataItem:
+        columnName: OMD_CHANGE_DATETIME
+      targetColumn:
+        columnName: OMD_CHANGE_DATETIME
+    - sourceDataItem:
+        columnName: OMD_DELETED_RECORD
+      targetColumn:
+        columnName: OMD_DELETED_RECORD
+    - sourceDataItem:
+        columnName: COMPONENT_TYPE_ID
+      targetColumn:
+        columnName: SRCSYS_COMPONENT_TYPE_ID
+    - sourceDataItem:
+        columnName: CHARGE_AMOUNT
+      targetColumn:
+        columnName: AMOUNT_CONTRIBUTED
+    - sourceDataItem:
+        columnName: OMD_INSERT_DATETIME
+      targetColumn:
+        columnName: OMD_INSERT_DATETIME
+    - sourceDataItem:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+      targetColumn:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+    - sourceDataItem:
+        columnName: OMD_CHANGE_KEY
+      targetColumn:
+        columnName: OMD_CHANGE_KEY
