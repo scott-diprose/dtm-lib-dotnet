@@ -49,7 +49,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
+            "label": "publish Windows",
             "command": "dotnet",
             "type": "process",
             "args": [
