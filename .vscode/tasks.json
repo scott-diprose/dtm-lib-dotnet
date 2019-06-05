@@ -3,21 +3,18 @@
     "tasks": [
         {
             "label": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "focus": true,
+                "panel": "shared"
+            },
             "command": "dotnet",
             "type": "process",
             "args": [
-                "build",
-                "${workspaceFolder}/testing/testing.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/testing/testing.csproj"
+                "build"
             ],
             "problemMatcher": "$tsc"
         },
@@ -30,20 +27,12 @@
                 "run",
                 "${workspaceFolder}/testing/testing.csproj"
             ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "build",
-            "command": "dotnet build",
-            "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "problemMatcher": "$tsc",
             "presentation": {
-                "focus": true
-            },
-            "problemMatcher": "$msCompile"
+                "focus": true,
+                "panel": "dedicated",
+                "clear": true
+            }
         },
         {
             "label": "test",
@@ -54,9 +43,32 @@
                 "isDefault": true
             },
             "presentation": {
-                "revealProblems": "onProblem"
+                "revealProblems": "onProblem",
+                "panel": "shared"
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/dp-metalib.net/dp-metalib.net.csproj",
+                "-c",
+                "Release",
+                "-r",
+                "win7-x64"
+            ],
+            "problemMatcher": "$tsc",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
         }
     ]
 }

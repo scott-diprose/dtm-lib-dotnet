@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dp-metalib", "dp-metalib.net\dp-metalib.net.csproj", "{28D45E46-A58D-421A-96FB-BF57EAC44A2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "testing\testing.csproj", "{160AA935-6D91-4F58-979C-0B7D306E9E6E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,17 +30,5 @@ Global
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x64.Build.0 = Release|Any CPU
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x86.ActiveCfg = Release|Any CPU
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x86.Build.0 = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|x64.Build.0 = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Debug|x86.Build.0 = Debug|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|x64.ActiveCfg = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|x64.Build.0 = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|x86.ActiveCfg = Release|Any CPU
-		{160AA935-6D91-4F58-979C-0B7D306E9E6E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
