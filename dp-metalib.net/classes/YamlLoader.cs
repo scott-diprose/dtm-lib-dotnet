@@ -6,13 +6,54 @@ namespace DPMetaLib
 {
   public static class YamlLoader
   {
-    public static MappedModel LoadFromFile(string filePath)
+    public static MappedDataSet LoadFromFile(string filePath)
     {
       var yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
-      // return yamlDotNet.Deserialize<MappedDataSet>(mappingFile);
-      MappedModel t = yamlDotNet.Deserialize<MappedModel>(mappingFile);
-      return t;
+      LoadedMapping t = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
+      return t.mappedDataSet;
+    }
+
+    public static ModelMappings LoadFromFolder(string folderPath)
+    {
+      ModelMappings result = new ModelMappings();
+      var yamlDotNet = new DeserializerBuilder().Build();
+
+      try
+      {
+        DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
+
+        foreach (FileInfo currentFile in folderInfo.EnumerateFiles())
+        {
+          try
+          {
+            StreamReader mappingFile = File.OpenText(currentFile.FullName);
+            LoadedMapping loaded = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
+            result.mappedDataSets.Add(loaded.mappedDataSet);
+          }
+          catch (UnauthorizedAccessException unAuthFile)
+          {
+            Console.WriteLine($"{unAuthFile.Message}");
+          }
+        }
+      }
+      catch (DirectoryNotFoundException dirNotFound)
+      {
+        Console.WriteLine($"{dirNotFound.Message}");
+      }
+      catch (UnauthorizedAccessException unAuthDir)
+      {
+        Console.WriteLine($"unAuthDir: {unAuthDir.Message}");
+      }
+      catch (PathTooLongException longPath)
+      {
+        Console.WriteLine($"{longPath.Message}");
+      }
+      catch (Exception unhandled)
+      {
+        Console.WriteLine($"{unhandled.Message}");
+      }
+      return result;
     }
 
 

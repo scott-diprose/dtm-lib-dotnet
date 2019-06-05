@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace DPMetaLib
 {
-  public class MappedModel
+  public class LoadedMapping
   {
     [YamlMember]
     [JsonProperty]
