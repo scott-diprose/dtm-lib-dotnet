@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -14,9 +15,9 @@ namespace DPMetaLib
       return t.mappedDataSet;
     }
 
-    public static ModelMappings LoadFromFolder(string folderPath)
+    public static List<MappedDataSet> LoadFromFolder(string folderPath)
     {
-      ModelMappings result = new ModelMappings();
+      List<MappedDataSet> result = new List<MappedDataSet>();
       var yamlDotNet = new DeserializerBuilder().Build();
 
       try
@@ -29,7 +30,7 @@ namespace DPMetaLib
           {
             StreamReader mappingFile = File.OpenText(currentFile.FullName);
             LoadedMapping loaded = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
-            result.mappedDataSets.Add(loaded.mappedDataSet);
+            result.Add(loaded.mappedDataSet);
           }
           catch (UnauthorizedAccessException unAuthFile)
           {

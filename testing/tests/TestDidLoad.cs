@@ -1,19 +1,21 @@
+using DPMetaLib;
 using System;
+using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
-using DPMetaLib;
 
 namespace DPMetaLib_test
 {
   public class TestDidLoad
   {
     private readonly ITestOutputHelper output;
-    private MappedModel testObject;
+    private List<MappedDataSet> mappings;
 
     public TestDidLoad(ITestOutputHelper output)
     {
       this.output = output;
-      testObject = YamlLoader.LoadFromFile("..\\..\\..\\resources\\metadata\\basic_mapping_sample.1.yaml");
+      // mappings = YamlLoader.LoadFromFile("..\\..\\..\\resources\\metadata\\basic_mapping_sample.1.yaml");
+      mappings = YamlLoader.LoadFromFolder("..\\..\\..\\resources\\metadata");
     }
 
     /* Start of Tests */
@@ -21,8 +23,9 @@ namespace DPMetaLib_test
     [Fact]
     public void EnsureLoadedSomething()
     {
-      int t = testObject.mappedDataSet.mappedDataItems.Count;
-      Assert.True(t > 0, "No mapped columns where found.");
+      // Assert.NotEmpty(testObject.mappedDataItems);
+      if (mappings.Count == 0)
+        throw new Exception("ERROR: No items in collection.");
     }
 
     // [Fact]
