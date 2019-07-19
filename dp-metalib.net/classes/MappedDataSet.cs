@@ -1,4 +1,4 @@
-﻿﻿using YamlDotNet.Serialization;
+using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -8,21 +8,32 @@ namespace DPMetaLib
   {
     [YamlMember]
     [JsonProperty]
-    // public dynamic MappingName { get; set; }//private set; }
-    public string mappingName { get; set; }//private set; }
+    // public dynamic MappingName { get; set; }//private set; }  // TODO: review for understanding
+    public string mappingName { get; set; }
 
     [YamlMember]
     [JsonProperty]
-    // public dynamic Source { get; set; }//private set; }
-    public DataQuery source { get; set; }//private set; }
+    public string mappingDescription { get; set; }
 
     [YamlMember]
     [JsonProperty]
-    public DataObject target { get; set; }//private set; }
+    public bool enabled { get; set; }
 
     [YamlMember]
     [JsonProperty]
-    public List<MappedDataItem> mappedDataItems { get; set; }//private set; }
+    public SchemaExt schemaExt { get; set; }
+
+    [YamlMember]
+    [JsonProperty]
+    public DataQuery source { get; set; }
+
+    [YamlMember]
+    [JsonProperty]
+    public DataObject target { get; set; }
+
+    [YamlMember]
+    [JsonProperty]
+    public List<MappedDataItem> mappedDataItems { get; set; }
 
     // private MappedDataSet(dynamic source, DataObject target, List<MappedDataItem> mappedDataItems)
     // {
