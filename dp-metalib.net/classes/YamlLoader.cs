@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -39,23 +38,29 @@ namespace DPMetaLib
           {
             Console.WriteLine($"{unAuthFile.Message}");
           }
+          catch (Exception)
+          {
+            Console.WriteLine($"An error occurred attempting to load: {currentFile.Name}. Assuming invalid file format.");
+            throw;
+          }
         }
       }
-      catch (DirectoryNotFoundException dirNotFound)
+      //catch (DirectoryNotFoundException dirNotFound)
+      //{
+      //  Console.WriteLine($"{dirNotFound.Message}");
+      //}
+      //catch (UnauthorizedAccessException unAuthDir)
+      //{
+      //  Console.WriteLine($"unAuthDir: {unAuthDir.Message}");
+      //}
+      //catch (PathTooLongException longPath)
+      //{
+      //  Console.WriteLine($"{longPath.Message}");
+      //}
+      catch (Exception)
       {
-        Console.WriteLine($"{dirNotFound.Message}");
-      }
-      catch (UnauthorizedAccessException unAuthDir)
-      {
-        Console.WriteLine($"unAuthDir: {unAuthDir.Message}");
-      }
-      catch (PathTooLongException longPath)
-      {
-        Console.WriteLine($"{longPath.Message}");
-      }
-      catch (Exception unhandled)
-      {
-        Console.WriteLine($"{unhandled.Message}");
+        Console.WriteLine($"An error occurred attempting to access: {folderPath}");
+        throw;
       }
       return accumLoaded;
     }
