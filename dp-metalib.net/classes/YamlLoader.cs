@@ -11,13 +11,13 @@ namespace DPMetaLib
     {
       var yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
-      LoadedMapping t = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
+      YamlLoadedMapping t = yamlDotNet.Deserialize<YamlLoadedMapping>(mappingFile);
       return t.mappedDataSet;
     }
 
-    public static List<MappedDataSet> LoadFromFolder(string folderPath)
+    public static LoadedMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
     {
-      List<MappedDataSet> result = new List<MappedDataSet>();
+      LoadedMappings accumLoaded = new LoadedMappings(filterByTargetConnectionKey);
       var yamlDotNet = new DeserializerBuilder().Build();
 
       try
@@ -29,8 +29,11 @@ namespace DPMetaLib
           try
           {
             StreamReader mappingFile = File.OpenText(currentFile.FullName);
-            LoadedMapping loaded = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
-            result.Add(loaded.mappedDataSet);
+            YamlLoadedMapping loaded = yamlDotNet.Deserialize<YamlLoadedMapping>(mappingFile);
+            if (loaded.mappedDataSet.target.dataStore.connectionKey == filterByTargetConnectionKey)
+            {
+              accumLoaded.MappedDataSets.Add(loaded.mappedDataSet);
+            }
           }
           catch (UnauthorizedAccessException unAuthFile)
           {
@@ -54,7 +57,7 @@ namespace DPMetaLib
       {
         Console.WriteLine($"{unhandled.Message}");
       }
-      return result;
+      return accumLoaded;
     }
 
 

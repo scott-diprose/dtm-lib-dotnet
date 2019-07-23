@@ -1,9 +1,9 @@
-﻿﻿using YamlDotNet.Serialization;
+using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 
 namespace DPMetaLib
 {
-  public class LoadedMapping
+  public class YamlLoadedMapping
   {
     [YamlMember]
     [JsonProperty]
