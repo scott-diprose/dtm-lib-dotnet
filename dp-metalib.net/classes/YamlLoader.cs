@@ -10,8 +10,8 @@ namespace DPMetaLib
     {
       var yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
-      YamlLoadedMapping t = yamlDotNet.Deserialize<YamlLoadedMapping>(mappingFile);
-      return t.mappedDataSet;
+      LoadedMapping loaded = yamlDotNet.Deserialize<LoadedMapping>(mappingFile);
+      return loaded.mappedDataSet;
     }
 
     public static LoadedMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
