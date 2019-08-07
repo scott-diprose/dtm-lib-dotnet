@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace DPMLib_test
+namespace test
 {
-  public class TestDidLoad
+  public class TestDidLoadYaml
   {
     private readonly ITestOutputHelper output;
-    private List<MappedDataSet> mappings;
+    // private MappedDataSet mapping;
+    private FilteredMappings mappings;
 
-    public TestDidLoad(ITestOutputHelper output)
+    public TestDidLoadYaml(ITestOutputHelper output)
     {
       this.output = output;
-      // mappings = YamlLoader.LoadFromFile("..\\..\\..\\resources\\metadata\\basic_mapping_sample.1.yaml");
-      mappings = YamlLoader.LoadFromFolder("..\\..\\..\\resources\\metadata");
+      // mapping = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata\sample.yaml");
+      mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata", "INT");
     }
 
     /* Start of Tests */
@@ -23,8 +24,8 @@ namespace DPMLib_test
     [Fact]
     public void EnsureLoadedSomething()
     {
-      // Assert.NotEmpty(testObject.mappedDataItems);
-      if (mappings.Count == 0)
+      // Assert.NotEmpty(mapping.mappedDataItems);
+      if (mappings.MappedDataSets.Count == 0)
         throw new Exception("ERROR: No items in collection.");
     }
 
