@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>DPMLib_test</RootNamespace>
-
+    <TargetFramework>net461</TargetFramework>
+    <RootNamespace>test</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPMLib.net", "DPMLib.net\DPMLib.net.csproj", "{28D45E46-A58D-421A-96FB-BF57EAC44A2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{269CE451-325C-4FA4-89E4-974037050BFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x64.Build.0 = Release|Any CPU
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x86.ActiveCfg = Release|Any CPU
 		{28D45E46-A58D-421A-96FB-BF57EAC44A2B}.Release|x86.Build.0 = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|x64.Build.0 = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{269CE451-325C-4FA4-89E4-974037050BFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
