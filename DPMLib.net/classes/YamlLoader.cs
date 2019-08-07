@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -6,21 +7,21 @@ namespace DPMLib
 {
   public static class YamlLoader
   {
-    public static MappedDataSet LoadFromFile(string filePath)
+    public static List<MappedDataSet> LoadFromFile(string filePath)
     {
       var yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
-      LoaderResult loaded = yamlDotNet.Deserialize<LoaderResult>(mappingFile);
-      return loaded.mappedDataSet;
+      List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
+      return loaded;
     }
 
     // public static MappedDataSet LoadValidatedFromFile(string filePath)
     // {
     // }
 
-    public static LoadedMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
+    public static FilteredMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
     {
-      LoadedMappings accumLoaded = new LoadedMappings(filterByTargetConnectionKey);
+      FilteredMappings accumLoaded = new FilteredMappings(filterByTargetConnectionKey);
       var yamlDotNet = new DeserializerBuilder().Build();
 
       try
@@ -32,10 +33,10 @@ namespace DPMLib
           try
           {
             StreamReader mappingFile = File.OpenText(currentFile.FullName);
-            LoaderResult loaded = yamlDotNet.Deserialize<LoaderResult>(mappingFile);
-            if (loaded.mappedDataSet.target.dataStore.connectionKey == filterByTargetConnectionKey)
+            List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
+            if (loaded[0].target.dataStore.connectionKey == filterByTargetConnectionKey)
             {
-              accumLoaded.MappedDataSets.Add(loaded.mappedDataSet);
+              accumLoaded.MappedDataSets.Add(loaded[0]);
             }
           }
           catch (UnauthorizedAccessException unAuthFile)

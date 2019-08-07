@@ -14,11 +14,11 @@ namespace DPMLib
     public static string ObjectModelToSchema()
     {
       JSchemaGenerator generator = new JSchemaGenerator();
-      JSchema schema = generator.Generate(typeof(LoadedMappings));
+      JSchema schema = generator.Generate(typeof(FilteredMappings));
       return schema.ToString();
     }
 
-    public static ValidationResult ValidateJson(LoadedMappings objectModel)
+    public static ValidationResult ValidateJson(FilteredMappings objectModel)
     {
       throw new NotImplementedException();
     }

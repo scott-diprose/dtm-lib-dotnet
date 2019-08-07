@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -8,24 +9,21 @@ namespace DPMLib
 {
   public static class JsonLoader
   {
-    public static MappedDataSet LoadFromFile(string filePath)
+    public static List<MappedDataSet> LoadFromFile(string filePath)
     {
-      LoaderResult loaded;
-
       // setup readers
       using (TextReader mappingFile = File.OpenText(filePath))
       using (JsonTextReader jsonReader = new JsonTextReader(mappingFile))
       {
         // load metadata file
         JsonSerializer serializer = new JsonSerializer();
-        loaded = serializer.Deserialize<LoaderResult>(jsonReader);
+        List<MappedDataSet> loaded = serializer.Deserialize<List<MappedDataSet>>(jsonReader);
+        return loaded;
       }
-      return loaded.mappedDataSet;
     }
 
     public static MappedDataSet LoadValidatedFromFile(string filePath)
     {
-      LoaderResult loaded;
       // setup schema source
       Assembly assembly = typeof(DPMLib.ValidationResult).GetTypeInfo().Assembly;
       string[] names = assembly.GetManifestResourceNames();
@@ -48,9 +46,9 @@ namespace DPMLib
 
         // load and validate metadata file
         JsonSerializer serializer = new JsonSerializer();
-        loaded = serializer.Deserialize<LoaderResult>(validatingReader);
+        List<MappedDataSet> loaded = serializer.Deserialize<List<MappedDataSet>>(validatingReader);
+        return loaded[0];
       }
-      return loaded.mappedDataSet;
     }
   }
 }

@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace DPMLib
 {
-  public class LoadedMappings
+  public class FilteredMappings
   {
     private string targetConnectionKey;
     private List<MappedDataSet> mappedDataSets;
 
-    public LoadedMappings(string filterByTargetConnectionKey)
+    public FilteredMappings(string filterByTargetConnectionKey)
     {
       this.targetConnectionKey = filterByTargetConnectionKey;
       this.mappedDataSets = new List<MappedDataSet>();
