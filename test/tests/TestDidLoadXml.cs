@@ -15,7 +15,7 @@ namespace test
     public TestDidLoadXml(ITestOutputHelper output)
     {
       this.output = output;
-      TextReader xmlString = File.OpenText(@"..\..\..\resources\metadata\sample.xml");
+      TextReader xmlString = File.OpenText(@"C:\Users\scott\dev\OSS\DPMLib.net\test\resources\metadata\sample.xml");
       mappings = XmlLoader.LoadFromString(xmlString.ToString());
     }
 
