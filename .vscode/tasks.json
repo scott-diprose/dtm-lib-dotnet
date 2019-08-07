@@ -7,21 +7,21 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "presentation": {
-                "focus": true,
-                "panel": "shared"
-            },
-            "command": "dotnet",
             "type": "process",
+            "command": "dotnet",
             "args": [
                 "build"
             ],
-            "problemMatcher": "$tsc"
+            "problemMatcher": "$tsc",
+            "presentation": {
+              "focus": true,
+              "panel": "shared"
+            }
         },
         {
             "label": "watch",
-            "command": "dotnet",
             "type": "process",
+            "command": "dotnet",
             "args": [
                 "watch",
                 "run",
@@ -36,8 +36,8 @@
         },
         {
             "label": "test",
-            "command": "dotnet test",
             "type": "shell",
+            "command": "dotnet test",
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -50,8 +50,8 @@
         },
         {
             "label": "publish Windows",
-            "command": "dotnet",
             "type": "process",
+            "command": "dotnet",
             "args": [
                 "publish",
                 "${workspaceFolder}/dp-metalib.net/dp-metalib.net.csproj",

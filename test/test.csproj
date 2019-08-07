@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>DPMetaLib_test</RootNamespace>
+    <RootNamespace>DPMDLib_test</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dp-metalib.net\dp-metalib.net.csproj" />
+    <ProjectReference Include="..\DPMDLib.net\DPMDLib.net.csproj" />
   </ItemGroup>
 
 </Project>

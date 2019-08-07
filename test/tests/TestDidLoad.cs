@@ -1,10 +1,10 @@
-using DPMetaLib;
+using DPMDLib;
 using System;
 using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace DPMetaLib_test
+namespace DPMDLib_test
 {
   public class TestDidLoad
   {

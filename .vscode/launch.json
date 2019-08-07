@@ -11,8 +11,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            // "program": "${workspaceFolder}/testing/bin/Debug/netcoreapp2.2/testing.dll",
-            "program": "${workspaceFolder}/dp-metalib.net/bin/Debug/net461/win7-x64/dp-metalib.net.dll",
+            "program": "${workspaceFolder}/test/bin/Debug/netcoreapp2.2/testing.dll",
+            // "program": "${workspaceFolder}/dp-metalib.net/bin/Debug/net461/win7-x64/dp-metalib.net.dll",
             "args": [],
             "cwd": "${workspaceFolder}/dp-metalib.net",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window

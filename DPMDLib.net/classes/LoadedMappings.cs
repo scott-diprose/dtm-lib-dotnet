@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DPMetaLib
+namespace DPMDLib
 {
   public class LoadedMappings
   {

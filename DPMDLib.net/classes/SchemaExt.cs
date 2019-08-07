@@ -1,7 +1,7 @@
 using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 
-namespace DPMetaLib
+namespace DPMDLib
 {
   public class SchemaExt
   {

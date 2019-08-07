@@ -2,7 +2,7 @@ using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DPMetaLib
+namespace DPMDLib
 {
   public class MappedDataSet
   {

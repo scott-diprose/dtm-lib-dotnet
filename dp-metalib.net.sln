@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dp-metalib", "dp-metalib.net\dp-metalib.net.csproj", "{28D45E46-A58D-421A-96FB-BF57EAC44A2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPMDLib.net", "DPMDLib.net\DPMDLib.net.csproj", "{28D45E46-A58D-421A-96FB-BF57EAC44A2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
