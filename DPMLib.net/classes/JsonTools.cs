@@ -7,7 +7,7 @@ using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema.Generation;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public static class JsonTools
   {
@@ -23,10 +23,10 @@ namespace DPMDLib
       throw new NotImplementedException();
     }
 
-      public static ValidationResult ValidateJson(string jsonText)
+    public static ValidationResult ValidateJson(string jsonText)
     {
       // load schema
-      Assembly assembly = typeof(DPMDLib.ValidationResult).GetTypeInfo().Assembly;
+      Assembly assembly = typeof(DPMLib.ValidationResult).GetTypeInfo().Assembly;
       string[] names = assembly.GetManifestResourceNames();
       Stream resource = assembly.GetManifestResourceStream("dp-metalib.net.schemas.dp-metadata.json");
       string schemaText;

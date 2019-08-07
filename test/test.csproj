@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>DPMDLib_test</RootNamespace>
+    <RootNamespace>DPMLib_test</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DPMDLib.net\DPMDLib.net.csproj" />
+    <ProjectReference Include="..\DPMLib.net\DPMLib.net.csproj" />
   </ItemGroup>
 
 </Project>

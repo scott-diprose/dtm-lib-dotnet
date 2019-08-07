@@ -1,6 +1,6 @@
-# dpmdlib.net
+# dpmlib.net
 
-Data Processing Metadata Library (dpmdlib)
+Data Processing Metadata Library (dpmlib)
 
 Basic library implementing scott-diprose/dp-metadata
 
@@ -30,9 +30,9 @@ https://blog.ploeh.dk/2012/07/02/PrimitiveDependencies/
 
 # Release Artefacts
 
-- dpmdlib.net.dll
+- dpmlib.net.dll
   .NET library for working with data processing metadata.
-- dpmdlib-tmpl8.dll
+- dpmlib-tmpl8.dll
   .NET library for applying object model to handle bars templates.
-- dpmdlib.exe
+- dpmlib.exe
   Command line interface providing access to the above two libraries.

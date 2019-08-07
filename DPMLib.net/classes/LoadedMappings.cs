@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public class LoadedMappings
   {
@@ -20,6 +20,6 @@ namespace DPMDLib
     public List<MappedDataSet> MappedDataSets
     {
       get { return mappedDataSets; }
-}
+    }
   }
 }

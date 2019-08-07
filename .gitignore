@@ -1,7 +1,7 @@
-DPMDLib-cli
-DPMDLib-handlebars
-DPMDLib-handlebars/spec
-DPMDLib-handlebars/string_templates/data-compare.handlebars
+DPMLib-cli
+DPMLib-handlebars
+DPMLib-handlebars/spec
+DPMLib-handlebars/string_templates/data-compare.handlebars
 test/**/01.database_setttings.sql
 test/**/SQL
 

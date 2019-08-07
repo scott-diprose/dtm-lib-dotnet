@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public static class YamlLoader
   {
@@ -18,7 +18,7 @@ namespace DPMDLib
     // {
     // }
 
-      public static LoadedMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
+    public static LoadedMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
     {
       LoadedMappings accumLoaded = new LoadedMappings(filterByTargetConnectionKey);
       var yamlDotNet = new DeserializerBuilder().Build();

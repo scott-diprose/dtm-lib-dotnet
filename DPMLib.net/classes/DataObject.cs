@@ -1,7 +1,7 @@
 ﻿﻿using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public class DataObject
   {

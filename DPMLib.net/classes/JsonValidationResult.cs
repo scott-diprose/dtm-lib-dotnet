@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Schema;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public struct ValidationResult
   {

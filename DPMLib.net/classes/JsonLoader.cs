@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 
-namespace DPMDLib
+namespace DPMLib
 {
   public static class JsonLoader
   {
@@ -27,7 +27,7 @@ namespace DPMDLib
     {
       LoaderResult loaded;
       // setup schema source
-      Assembly assembly = typeof(DPMDLib.ValidationResult).GetTypeInfo().Assembly;
+      Assembly assembly = typeof(DPMLib.ValidationResult).GetTypeInfo().Assembly;
       string[] names = assembly.GetManifestResourceNames();
       Stream resource = assembly.GetManifestResourceStream("dp-metalib.net.schemas.dp-metadata.json");
 
