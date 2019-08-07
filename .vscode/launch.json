@@ -6,13 +6,12 @@
    "configurations": [
         {
             "name": ".NET Core Launch (console)",
-            // "type": "coreclr",
-            "type": "clr",
+            "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             // "program": "${workspaceFolder}\\test\\bin\\Debug\\net461\\win7-x64\\test.dll",
-            "program": "${workspaceFolder}\\DPMLib.net\\bin\\Debug\\net461\\win7-x64\\DPMLib.net.dll",
+            "program": "${workspaceFolder}\\DPMLib.net\\bin\\Debug\\net461\\DPMLib.net.dll",
             "args": [],
             // "cwd": "${workspaceFolder}\\test",
             "cwd": "${workspaceFolder}\\DPMLib.net",
