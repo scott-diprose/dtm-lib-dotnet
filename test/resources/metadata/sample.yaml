@@ -1,0 +1,68 @@
+- mappedDataSet:
+  mappingName: m_200_HUB_POLICY_MIDAS_H_POLICY_PREMIUM
+  mappingDescription: HUB
+  enabled: True
+  schemaExt:
+    AzP_EDW:
+      underlyingSource:
+        objectSchema: dbo
+        objectName: HSTG_MIDAS_H_POLICY_PREMIUM
+  source:
+    dataStore:
+      connectionKey: HSTG
+    language: T-SQL
+    code: |
+      declare @start_datetime datetime2 = ?,
+          @end_datetime datetime2 = ?;
+
+      select POLICY_SK,
+          OMD_INSERT_DATETIME,
+          OMD_RECORD_SOURCE,
+          POLICY_ID
+      from    (
+              select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.POLICY_ID) + N'_' + OMD_RECORD_SOURCE) as POLICY_SK, /* REM SK calcs to be pulled from TEAM metadata */
+                  OMD_INSERT_DATETIME,
+                  OMD_RECORD_SOURCE,
+                  intendedDataType.POLICY_ID,
+                  row_number() over (partition by intendedDataType.POLICY_ID
+                                      order by OMD_INSERT_DATETIME asc
+                                      ) as rn
+              from dbo.HSTG_MIDAS_H_POLICY_PREMIUM POLICY_PREMIUM
+                  cross apply (
+                          select convert(bigint, POLICY_PREMIUM.POLICY_ID) as POLICY_ID
+                          ) as intendedDataType
+              where OMD_INSERT_DATETIME >= @start_datetime
+                  and OMD_INSERT_DATETIME < @end_datetime
+              ) src
+      where src.rn = 1
+          and not exists (
+              select null
+              from EDW_200_Integration_Layer.dbo.HUB_POLICY with (nolock)
+              where HUB_POLICY.POLICY_SK = src.POLICY_SK
+              );
+  target:
+    dataStore:
+      connectionKey: INT
+    objectSchema: dbo
+    objectName: HUB_POLICY
+  mappedDataItems:
+    - sourceDataItem:
+        columnName: POLICY_SK
+      targetColumn:
+        columnName: POLICY_SK
+    - sourceDataItem:
+        columnName: OMD_INSERT_DATETIME
+      targetColumn:
+        columnName: OMD_FIRST_SEEN_DATETIME
+    - sourceDataItem:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+      targetColumn:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+    - sourceDataItem:
+        columnName: OMD_RECORD_SOURCE
+      targetColumn:
+        columnName: OMD_RECORD_SOURCE
+    - sourceDataItem:
+        columnName: POLICY_ID
+      targetColumn:
+        columnName: POLICY_ID

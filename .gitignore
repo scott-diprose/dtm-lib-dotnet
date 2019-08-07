@@ -4,6 +4,7 @@ DPMLib-handlebars/spec
 DPMLib-handlebars/string_templates/data-compare.handlebars
 test/**/01.database_setttings.sql
 test/**/SQL
+test/resources/metadata/archive
 
 
 ## Ignore Visual Studio temporary files, build results, and
