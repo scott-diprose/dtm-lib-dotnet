@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
-    <RootNamespace>test</RootNamespace>
+    <!-- <RuntimeIdentifier>win7-x64</RuntimeIdentifier> -->
     <IsPackable>false</IsPackable>
+    <RootNamespace>test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

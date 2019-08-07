@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
+    <!-- <RuntimeIdentifier>win7-x64</RuntimeIdentifier> -->
     <RootNamespace>DPMLib</RootNamespace>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
