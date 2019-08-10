@@ -1,13 +1,15 @@
-﻿﻿using YamlDotNet.Serialization;
-using Newtonsoft.Json;
+﻿﻿using Newtonsoft.Json;
+using System.Xml.Serialization;
+using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
   public class ColumnDefinition
   {
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    public string columnName { get; set; }//private set; }
+    public string columnName { get; set; }
 
     // private ColumnDefinition(string columnName)
     // {

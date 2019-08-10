@@ -1,21 +1,25 @@
-﻿﻿using YamlDotNet.Serialization;
-using Newtonsoft.Json;
+﻿﻿using Newtonsoft.Json;
+using System.Xml.Serialization;
+using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
   public class CalculationDefinition
   {
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    public string calculationName { get; set; }//private set; }
+    public string calculationName { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    public string language { get; set; }//private set; }
+    public string language { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    public string code { get; set; }//private set; }
+    public string code { get; set; }
 
     // private CalculationDefinition(string calculationName, string language, string code)
     // {
