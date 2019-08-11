@@ -1,18 +1,21 @@
-﻿﻿using YamlDotNet.Serialization;
-using Newtonsoft.Json;
+﻿﻿using Newtonsoft.Json;
+using System.Xml.Serialization;
+using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
   public class MappedDataItem
   {
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    // public dynamic SourceDataItem { get; set; }//private set; }
-    public ColumnDefinition sourceDataItem { get; set; }//private set; }
+    // public dynamic SourceDataItem { get; set; }
+    public ColumnDefinition sourceDataItem { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    public ColumnDefinition targetColumn { get; set; }//private set; }
+    public ColumnDefinition targetColumn { get; set; }
 
     // private MappedDataItem(dynamic sourceDataItem, ColumnDefinition targetColumn)
     // {

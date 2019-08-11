@@ -1,36 +1,43 @@
-using YamlDotNet.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
   public class MappedDataSet
   {
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
-    // public dynamic MappingName { get; set; }//private set; }  // TODO: review for understanding
     public string mappingName { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public string mappingDescription { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public bool enabled { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public SchemaExt schemaExt { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public DataQuery source { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public DataObject target { get; set; }
 
+    [XmlElement]
     [YamlMember]
     [JsonProperty]
     public List<MappedDataItem> mappedDataItems { get; set; }
