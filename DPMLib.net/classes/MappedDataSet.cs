@@ -1,10 +1,12 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
+  [Serializable()]
   public class MappedDataSet
   {
     [XmlElement]
@@ -22,9 +24,9 @@ namespace DPMLib
     [JsonProperty]
     public bool enabled { get; set; }
 
-    [XmlElement]
-    [YamlMember]
-    [JsonProperty]
+    [XmlElement(IsNullable = false)]
+    [YamlMember] // already ignored if null
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public SchemaExt schemaExt { get; set; }
 
     [XmlElement]
