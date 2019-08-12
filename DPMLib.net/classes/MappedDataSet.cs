@@ -39,7 +39,7 @@ namespace DPMLib
     [JsonProperty]
     public DataObject target { get; set; }
 
-    [XmlElement]
+    [XmlArray(ElementName = "mappedDataItems")]
     [YamlMember]
     [JsonProperty]
     public List<MappedDataItem> mappedDataItems { get; set; }

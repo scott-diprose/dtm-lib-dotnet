@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using System;
 using System.Xml.Serialization;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
+  [Serializable()]
   public class DataQuery
   {
     [XmlElement]

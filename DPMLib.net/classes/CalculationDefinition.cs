@@ -1,9 +1,11 @@
-﻿﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 
 namespace DPMLib
 {
+  [Serializable()]
   public class CalculationDefinition
   {
     [XmlElement]
