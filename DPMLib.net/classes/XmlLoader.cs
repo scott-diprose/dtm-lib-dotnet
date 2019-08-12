@@ -8,22 +8,23 @@ namespace DPMLib
 {
   public static class XmlLoader
   {
-    public static List<MappedDataSet> LoadFromString(string xml)
+    public static List<MappedDataSet> LoadFromString(string xmlString)
     {
-      // XmlSerializer serializer = new XmlSerializer(typeof(MappedDataSet));
-
-      XmlDocument xmlDoc = new XmlDocument();
-      xmlDoc.LoadXml(xml);
-
-      string jsonText = JsonConvert.SerializeXmlNode(xmlDoc);
-      using (TextReader textReader = new StringReader(jsonText))
+      using (var stringReader = new StringReader(xmlString))
       {
-        using (JsonReader jsonReader = new JsonTextReader(textReader))
-        {
-          JsonSerializer serializer = new JsonSerializer();
-          List<MappedDataSet> loaded = serializer.Deserialize<List<MappedDataSet>>(jsonReader);
-          return loaded;
-        }
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<MappedDataSet>));
+        List<MappedDataSet> loaded = (List<MappedDataSet>)xmlSerializer.Deserialize(stringReader);
+        return loaded;
+      }
+    }
+
+    public static string SaveToString(List<MappedDataSet> mappedDataSets)
+    {
+      using (TextWriter textWriter = new StringWriter())
+      {
+        XmlSerializer xmlSerialiser = new XmlSerializer(typeof(List<MappedDataSet>));
+        xmlSerialiser.Serialize(textWriter, mappedDataSets);
+        return textWriter.ToString();
       }
     }
   }
