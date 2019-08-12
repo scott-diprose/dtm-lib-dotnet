@@ -10,21 +10,68 @@ namespace DPMLib
   {
     public static List<MappedDataSet> LoadFromFile(string filePath)
     {
-      // var yamlDotNet = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build(); // TODO: use this and change all class members to PascalCase
-      var yamlDotNet = new DeserializerBuilder().Build();
+      // IDeserializer yamlDotNet = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build(); // TODO: use this and change all class members to PascalCase
+      IDeserializer yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
       List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
       return loaded;
     }
 
-    // public static MappedDataSet LoadValidatedFromFile(string filePath)
-    // {
-    // }
+    public static List<MappedDataSet> LoadFromFolder(string folderPath)
+    {
+      List<MappedDataSet> accumLoaded = new List<MappedDataSet>();
+      IDeserializer yamlDotNet = new DeserializerBuilder().Build();
+      try
+      {
+        DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
+
+        foreach (FileInfo currentFile in folderInfo.EnumerateFiles(@"*.yaml"))
+        {
+          try
+          {
+            StreamReader mappingFile = File.OpenText(currentFile.FullName);
+            List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
+            accumLoaded.AddRange(loaded);
+          }
+          catch (UnauthorizedAccessException unAuthFile)
+          {
+            Console.WriteLine($"Access denied: {unAuthFile.Message}");
+            throw;
+          }
+          catch (Exception)
+          {
+            Console.WriteLine($"An error occurred attempting to load: {currentFile.Name}. Assuming invalid file format.");
+            throw;
+          }
+        }
+      }
+      catch (DirectoryNotFoundException dirNotFound)
+      {
+        Console.WriteLine($"Directory not found: {dirNotFound.Message}");
+        throw;
+      }
+      catch (UnauthorizedAccessException unAuthDir)
+      {
+        Console.WriteLine($"Access denied: {unAuthDir.Message}");
+        throw;
+      }
+      catch (PathTooLongException longPath)
+      {
+        Console.WriteLine($"Path to long: {longPath.Message}");
+        throw;
+      }
+      catch (Exception)
+      {
+        Console.WriteLine($"An error occurred attempting to access: {folderPath}");
+        throw;
+      }
+      return accumLoaded;
+    }
 
     public static FilteredMappings LoadFromFolder(string folderPath, string filterByTargetConnectionKey)
     {
       FilteredMappings accumLoaded = new FilteredMappings(filterByTargetConnectionKey);
-      var yamlDotNet = new DeserializerBuilder().Build();
+      IDeserializer yamlDotNet = new DeserializerBuilder().Build();
 
       try
       {
@@ -36,14 +83,18 @@ namespace DPMLib
           {
             StreamReader mappingFile = File.OpenText(currentFile.FullName);
             List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
-            if (loaded[0].target.dataStore.connectionKey == filterByTargetConnectionKey)
+            foreach (MappedDataSet mapping in loaded)
             {
-              accumLoaded.MappedDataSets.Add(loaded[0]);
+              if (mapping.target.dataStore.connectionKey == filterByTargetConnectionKey)
+              {
+                accumLoaded.MappedDataSets.Add(mapping);
+              }
             }
           }
           catch (UnauthorizedAccessException unAuthFile)
           {
-            Console.WriteLine($"{unAuthFile.Message}");
+            Console.WriteLine($"Access denied: {unAuthFile.Message}");
+            throw;
           }
           catch (Exception)
           {
@@ -52,24 +103,36 @@ namespace DPMLib
           }
         }
       }
-      //catch (DirectoryNotFoundException dirNotFound)
-      //{
-      //  Console.WriteLine($"{dirNotFound.Message}");
-      //}
-      //catch (UnauthorizedAccessException unAuthDir)
-      //{
-      //  Console.WriteLine($"unAuthDir: {unAuthDir.Message}");
-      //}
-      //catch (PathTooLongException longPath)
-      //{
-      //  Console.WriteLine($"{longPath.Message}");
-      //}
+      catch (DirectoryNotFoundException dirNotFound)
+      {
+        Console.WriteLine($"Directory not found: {dirNotFound.Message}");
+        throw;
+      }
+      catch (UnauthorizedAccessException unAuthDir)
+      {
+        Console.WriteLine($"Access denied: {unAuthDir.Message}");
+        throw;
+      }
+      catch (PathTooLongException longPath)
+      {
+        Console.WriteLine($"Path to long: {longPath.Message}");
+        throw;
+      }
       catch (Exception)
       {
         Console.WriteLine($"An error occurred attempting to access: {folderPath}");
         throw;
       }
       return accumLoaded;
+    }
+
+    public static void SaveToFile(MappedDataSet mappedDataSet, string filePath)
+    {
+      ISerializer yamlDotNet = new SerializerBuilder().Build();
+      using (TextWriter outputFile = new StreamWriter(filePath, true))
+      {
+        yamlDotNet.Serialize(outputFile, mappedDataSet, typeof(MappedDataSet));
+      }
     }
   }
 }
