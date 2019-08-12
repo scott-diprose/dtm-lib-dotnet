@@ -1,5 +1,6 @@
-﻿﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Xml.Serialization;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace DPMLib
@@ -17,7 +18,7 @@ namespace DPMLib
     public string language { get; set; }
 
     [XmlElement]
-    [YamlMember]
+    [YamlMember(ScalarStyle = ScalarStyle.Literal)]
     [JsonProperty]
     public string code { get; set; }
 
