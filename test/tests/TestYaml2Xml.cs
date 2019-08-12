@@ -1,22 +1,24 @@
 using DPMLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace test
 {
-  public class TestDidLoadYaml
+  public class TestYaml2Xml
   {
     private readonly ITestOutputHelper output;
-    private List<MappedDataSet> mappings;
-    //private FilteredMappings mappings;
+    // private MappedDataSet mapping;
+    private FilteredMappings mappings;
 
-    public TestDidLoadYaml(ITestOutputHelper output)
+    public TestYaml2Xml(ITestOutputHelper output)
     {
       this.output = output;
-      mappings = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
-      //mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata", "INT");
+      // mapping = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
+      mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata", "INT");
     }
 
     /* Start of Tests */
@@ -24,7 +26,12 @@ namespace test
     [Fact]
     public void EnsureLoadedSomething()
     {
-      Assert.NotEmpty(mappings);
+      // Assert.NotEmpty(mapping.mappedDataItems);
+      if (mappings.MappedDataSets.Count == 0)
+        throw new Exception("ERROR: No items in collection.");
+
+      if (XmlLoader.SaveToString(mappings.MappedDataSets) == "")
+        throw new Exception("ERROR: No xml generated.");
     }
 
     // [Fact]

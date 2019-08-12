@@ -15,8 +15,10 @@ namespace test
     public TestDidLoadXml(ITestOutputHelper output)
     {
       this.output = output;
-      TextReader xmlString = File.OpenText(@"C:\Users\scott\dev\OSS\DPMLib.net\test\resources\metadata\sample.xml");
-      mappings = XmlLoader.LoadFromString(xmlString.ToString());
+      //TextReader xmlString = File.OpenText(@"C:\Users\scott\dev\OSS\DPMLib.net\test\resources\metadata\sample.xml");
+      StreamReader xmlReader = File.OpenText(@"..\..\..\resources\metadata\sample.xml");
+      string xmlString = xmlReader.ReadToEnd();
+      mappings = XmlLoader.LoadFromString(xmlString);
     }
 
     /* Start of Tests */
@@ -24,8 +26,7 @@ namespace test
     [Fact]
     public void EnsureLoadedSomething()
     {
-      if (mappings.Count == 0)
-        throw new Exception("ERROR: No items in collection.");
+      Assert.NotEmpty(mappings);
     }
   }
 }

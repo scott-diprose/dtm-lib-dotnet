@@ -1,8 +1,105 @@
-<!-- <LoadedMappings> -->
-  <mappedDataSet>
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfMappedDataSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MappedDataSet>
+    <mappingName>m_200_HUB_POLICY_MIDAS_H_POLICY_PREMIUM</mappingName>
+    <mappingDescription>HUB</mappingDescription>
+    <enabled>true</enabled>
+    <schemaExt>
+      <AzP_EDW>
+        <underlyingSource>
+          <objectSchema>dbo</objectSchema>
+          <objectName>HSTG_MIDAS_H_POLICY_PREMIUM</objectName>
+        </underlyingSource>
+      </AzP_EDW>
+    </schemaExt>
+    <source>
+      <dataStore>
+        <connectionKey>HSTG</connectionKey>
+      </dataStore>
+      <language>T-SQL</language>
+      <code>declare @start_datetime datetime2 = ?,
+    @end_datetime datetime2 = ?;
+
+select POLICY_SK,
+    OMD_INSERT_DATETIME,
+    OMD_RECORD_SOURCE,
+    POLICY_ID
+from    (
+        select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.POLICY_ID) + N'_' + OMD_RECORD_SOURCE) as POLICY_SK, /* REM SK calcs to be pulled from TEAM metadata */
+            OMD_INSERT_DATETIME,
+            OMD_RECORD_SOURCE,
+            intendedDataType.POLICY_ID,
+            row_number() over (partition by intendedDataType.POLICY_ID
+                                order by OMD_INSERT_DATETIME asc
+                                ) as rn
+        from dbo.HSTG_MIDAS_H_POLICY_PREMIUM POLICY_PREMIUM
+            cross apply (
+                    select convert(bigint, POLICY_PREMIUM.POLICY_ID) as POLICY_ID
+                    ) as intendedDataType
+        where OMD_INSERT_DATETIME &gt;= @start_datetime
+            and OMD_INSERT_DATETIME &lt; @end_datetime
+        ) src
+where src.rn = 1
+    and not exists (
+        select null
+        from EDW_200_Integration_Layer.dbo.HUB_POLICY with (nolock)
+        where HUB_POLICY.POLICY_SK = src.POLICY_SK
+        );
+      </code>
+    </source>
+    <target>
+      <dataStore>
+        <connectionKey>INT</connectionKey>
+      </dataStore>
+      <objectSchema>dbo</objectSchema>
+      <objectName>HUB_POLICY</objectName>
+    </target>
+    <mappedDataItems>
+      <sourceDataItem>
+        <columnName>POLICY_SK</columnName>
+      </sourceDataItem>
+      <targetColumn>
+        <columnName>POLICY_SK</columnName>
+      </targetColumn>
+    </mappedDataItems>
+    <mappedDataItems>
+      <sourceDataItem>
+        <columnName>OMD_INSERT_DATETIME</columnName>
+      </sourceDataItem>
+      <targetColumn>
+        <columnName>OMD_FIRST_SEEN_DATETIME</columnName>
+      </targetColumn>
+    </mappedDataItems>
+    <mappedDataItems>
+      <sourceDataItem>
+        <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
+      </sourceDataItem>
+      <targetColumn>
+        <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
+      </targetColumn>
+    </mappedDataItems>
+    <mappedDataItems>
+      <sourceDataItem>
+        <columnName>OMD_RECORD_SOURCE</columnName>
+      </sourceDataItem>
+      <targetColumn>
+        <columnName>OMD_RECORD_SOURCE</columnName>
+      </targetColumn>
+    </mappedDataItems>
+    <mappedDataItems>
+      <sourceDataItem>
+        <columnName>POLICY_ID</columnName>
+      </sourceDataItem>
+      <targetColumn>
+        <columnName>POLICY_ID</columnName>
+      </targetColumn>
+    </mappedDataItems>
+  </MappedDataSet>
+  <MappedDataSet>
     <mappingName>m_sync_HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX</mappingName>
-    <mappingDescription>SYNC</mappingDescription>
-    <enabled>1</enabled>
+    <mappingDescription>HSTG</mappingDescription>
+    <enabled>true</enabled>
     <schemaExt>
       <AzP_EDW>
         <underlyingSource>
@@ -13,7 +110,7 @@
     </schemaExt>
     <source>
       <dataStore>
-        <connectionKey>SRCSYS</connectionKey>
+        <connectionKey>HSTG_PRD</connectionKey>
       </dataStore>
       <language>T-SQL</language>
       <code>select * from dbo.HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX where OMD_INSERT_DATETIME &amp;gt; ? AND OMD_INSERT_DATETIME &amp;lt;= ?;</code>
@@ -107,5 +204,5 @@
         </targetColumn>
       </mappedDataItem>
     </mappedDataItems>
-  </mappedDataSet>
-<!-- </LoadedMappings> -->
+  </MappedDataSet>
+</ArrayOfMappedDataSet>

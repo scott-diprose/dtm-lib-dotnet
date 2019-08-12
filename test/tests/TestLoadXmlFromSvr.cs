@@ -59,16 +59,16 @@ select mappingName = N'm_sync_' + tables.[name],
             for xml path('mappedDataItem'), type
             )
 from EDW_150_History_Area.sys.tables
-    /* inner join openquery(AUBIWSQLPRD, '
+    inner join openquery(AUBIWSQLPRD, '
             select schema_name(tables.[schema_id]) as [schema_name]
                 , tables.[name]
             from EDW_150_History_Area.sys.tables;
             ') src
         on src.[schema_name] = schema_name(tables.[schema_id])
-        and src.[name] = tables.[name] */
+        and src.[name] = tables.[name]
 where schema_name(tables.[schema_id]) = N'dbo'
 order by schema_name(tables.[schema_id]), tables.[name]
-for xml path('mappedDataSets'), root('loaded')
+for xml path('MappedDataSet'), root('ArrayOfMappedDataSet')
 ) as xmlColumn;
 ";
 
@@ -79,16 +79,16 @@ for xml path('mappedDataSets'), root('loaded')
         conn.Open();
         OleDbDataReader reader = cmd.ExecuteReader();
 
-        string xmlMetadata = "";
+        string xmlString = "";
         while (reader.Read())
         {
           // read xml to string (assuming single row)
-          xmlMetadata = reader.GetString(0);
+          xmlString = reader.GetString(0);
         }
         reader.Close();
 
         // load to object model
-        List<MappedDataSet> loaded = XmlLoader.LoadFromString(xmlMetadata);
+        List<MappedDataSet> loaded = XmlLoader.LoadFromString(xmlString);
         loadedMappings.MappedDataSets.AddRange(loaded);
       }
     }
@@ -98,8 +98,7 @@ for xml path('mappedDataSets'), root('loaded')
     [Fact]
     public void EnsureLoadedSomething()
     {
-      if (loadedMappings.MappedDataSets.Count == 0)
-        throw new Exception("ERROR: No items in collection.");
+      Assert.NotEmpty(loadedMappings.MappedDataSets);
     }
   }
 }
