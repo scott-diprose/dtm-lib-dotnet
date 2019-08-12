@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace DPMLib
 {
@@ -9,6 +10,7 @@ namespace DPMLib
   {
     public static List<MappedDataSet> LoadFromFile(string filePath)
     {
+      // var yamlDotNet = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build(); // TODO: use this and change all class members to PascalCase
       var yamlDotNet = new DeserializerBuilder().Build();
       StreamReader mappingFile = File.OpenText(filePath);
       List<MappedDataSet> loaded = yamlDotNet.Deserialize<List<MappedDataSet>>(mappingFile);
@@ -28,7 +30,7 @@ namespace DPMLib
       {
         DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
 
-        foreach (FileInfo currentFile in folderInfo.EnumerateFiles())
+        foreach (FileInfo currentFile in folderInfo.EnumerateFiles(@"*.yaml"))
         {
           try
           {
