@@ -1,0 +1,71 @@
+[
+  {
+    "mappingName": "m_200_HUB_POLICY_MIDAS_H_POLICY_PREMIUM",
+    "mappingDescription": "HUB",
+    "enabled": true,
+    "schemaExt": {
+      "AzP_EDW": {
+        "underlyingSource": {
+          "objectSchema": "dbo",
+          "objectName": "HSTG_MIDAS_H_POLICY_PREMIUM"
+        }
+      }
+    },
+    "source": {
+      "dataStore": {
+        "connectionKey": "HSTG"
+      },
+      "language": "T-SQL",
+      "code": "declare @start_datetime datetime2 = ?,\n    @end_datetime datetime2 = ?;\n\nselect POLICY_SK,\n    OMD_INSERT_DATETIME,\n    OMD_RECORD_SOURCE,\n    POLICY_ID\nfrom    (\n        select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.POLICY_ID) + N'_' + OMD_RECORD_SOURCE) as POLICY_SK, /* REM SK calcs to be pulled from TEAM metadata */\n            OMD_INSERT_DATETIME,\n            OMD_RECORD_SOURCE,\n            intendedDataType.POLICY_ID,\n            row_number() over (partition by intendedDataType.POLICY_ID\n                                order by OMD_INSERT_DATETIME asc\n                                ) as rn\n        from dbo.HSTG_MIDAS_H_POLICY_PREMIUM POLICY_PREMIUM\n            cross apply (\n                    select convert(bigint, POLICY_PREMIUM.POLICY_ID) as POLICY_ID\n                    ) as intendedDataType\n        where OMD_INSERT_DATETIME >= @start_datetime\n            and OMD_INSERT_DATETIME < @end_datetime\n        ) src\nwhere src.rn = 1\n    and not exists (\n        select null\n        from EDW_200_Integration_Layer.dbo.HUB_POLICY with (nolock)\n        where HUB_POLICY.POLICY_SK = src.POLICY_SK\n        );\n"
+    },
+    "target": {
+      "dataStore": {
+        "connectionKey": "INT"
+      },
+      "objectSchema": "dbo",
+      "objectName": "HUB_POLICY"
+    },
+    "mappedDataItems": [
+      {
+        "sourceDataItem": {
+          "columnName": "POLICY_SK"
+        },
+        "targetColumn": {
+          "columnName": "POLICY_SK"
+        }
+      },
+      {
+        "sourceDataItem": {
+          "columnName": "OMD_INSERT_DATETIME"
+        },
+        "targetColumn": {
+          "columnName": "OMD_FIRST_SEEN_DATETIME"
+        }
+      },
+      {
+        "sourceDataItem": {
+          "columnName": "OMD_INSERT_MODULE_INSTANCE_ID"
+        },
+        "targetColumn": {
+          "columnName": "OMD_INSERT_MODULE_INSTANCE_ID"
+        }
+      },
+      {
+        "sourceDataItem": {
+          "columnName": "OMD_RECORD_SOURCE"
+        },
+        "targetColumn": {
+          "columnName": "OMD_RECORD_SOURCE"
+        }
+      },
+      {
+        "sourceDataItem": {
+          "columnName": "POLICY_ID"
+        },
+        "targetColumn": {
+          "columnName": "POLICY_ID"
+        }
+      }
+    ]
+  }
+]
