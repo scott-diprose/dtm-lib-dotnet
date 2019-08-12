@@ -1,4 +1,4 @@
-<LoadedMappings>
+<!-- <LoadedMappings> -->
   <mappedDataSet>
     <mappingName>m_sync_HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX</mappingName>
     <mappingDescription>SYNC</mappingDescription>
@@ -108,4 +108,4 @@
       </mappedDataItem>
     </mappedDataItems>
   </mappedDataSet>
-</LoadedMappings>
+<!-- </LoadedMappings> -->

@@ -1,5 +1,4 @@
-- mappedDataSet:
-  mappingName: m_200_HUB_POLICY_MIDAS_H_POLICY_PREMIUM
+- mappingName: m_200_HUB_POLICY_MIDAS_H_POLICY_PREMIUM
   mappingDescription: HUB
   enabled: True
   schemaExt:
