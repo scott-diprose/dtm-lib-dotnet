@@ -1,11 +1,6 @@
 using DPMLib;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Data.OleDb;
-using System.Data.SqlTypes;
-using System.Xml;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -56,7 +51,7 @@ select mappingName = N'm_sync_' + tables.[name],
             where columns.[object_id] = tables.[object_id]
                 and columns.[name] not like 'OMD\_%' escape '\'
             order by columns.column_id
-            for xml path('mappedDataItem'), type
+            for xml path('MappedDataItem'), type
             )
 from EDW_150_History_Area.sys.tables
     inner join openquery(AUBIWSQLPRD, '

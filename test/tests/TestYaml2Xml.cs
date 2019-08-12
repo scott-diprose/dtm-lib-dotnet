@@ -11,14 +11,13 @@ namespace test
   public class TestYaml2Xml
   {
     private readonly ITestOutputHelper output;
-    // private MappedDataSet mapping;
-    private FilteredMappings mappings;
+    private List<MappedDataSet> mappings;
 
     public TestYaml2Xml(ITestOutputHelper output)
     {
       this.output = output;
-      // mapping = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
-      mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata", "INT");
+      // mappings = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
+      mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata");
     }
 
     /* Start of Tests */
@@ -26,11 +25,10 @@ namespace test
     [Fact]
     public void EnsureLoadedSomething()
     {
-      // Assert.NotEmpty(mapping.mappedDataItems);
-      if (mappings.MappedDataSets.Count == 0)
-        throw new Exception("ERROR: No items in collection.");
+      Assert.NotEmpty(mappings);
 
-      if (XmlLoader.SaveToString(mappings.MappedDataSets) == "")
+      string xmlString = XmlLoader.SaveToString(mappings);
+      if (xmlString == "")
         throw new Exception("ERROR: No xml generated.");
     }
 

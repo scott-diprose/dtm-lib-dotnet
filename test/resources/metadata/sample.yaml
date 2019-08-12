@@ -65,3 +65,68 @@
         columnName: POLICY_ID
       targetColumn:
         columnName: POLICY_ID
+- mappingName: m_200_HUB_REF_STANDARD_CODE_MIDAS_MIDAS_STD_CODES_FN
+  mappingDescription: HUB
+  enabled: True
+  schemaExt:
+    AzP_EDW:
+      underlyingSource:
+        objectSchema: dbo
+        objectName: HSTG_MIDAS_STD_CODES_FN
+  source:
+    dataStore:
+      connectionKey: HSTG
+    language: T-SQL
+    code: |
+      declare @start_datetime datetime2 = ?,
+          @end_datetime datetime2 = ?;
+      
+      select REF_STANDARD_CODE_MIDAS_SK,
+          OMD_INSERT_DATETIME,
+          OMD_RECORD_SOURCE,
+          STANDARD_CODE_ID
+      from    (
+              select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.STANDARD_CODE_ID) + N'_' + OMD_RECORD_SOURCE) as REF_STANDARD_CODE_MIDAS_SK, /* REM SK calcs to be pulled from TEAM metadata */
+                  OMD_INSERT_DATETIME,
+                  OMD_RECORD_SOURCE,
+                  intendedDataType.STANDARD_CODE_ID,
+                  row_number() over (partition by intendedDataType.STANDARD_CODE_ID
+                                      order by OMD_INSERT_DATETIME asc
+                                      ) as rn
+              from dbo.HSTG_MIDAS_STD_CODES_FN(@start_datetime, @end_datetime) STD_CODES
+                  cross apply (
+                          select convert(bigint, STD_CODES.STANDARD_CODE_ID) as STANDARD_CODE_ID
+                          ) as intendedDataType
+              ) src
+      where src.rn = 1
+          and not exists (
+              select null
+              from EDW_200_Integration_Layer.dbo.HUB_REF_STANDARD_CODE_MIDAS with (nolock)
+              where HUB_REF_STANDARD_CODE_MIDAS.REF_STANDARD_CODE_MIDAS_SK = src.REF_STANDARD_CODE_MIDAS_SK
+              );
+  target:
+    dataStore:
+      connectionKey: INT
+    objectSchema: dbo
+    objectName: HUB_REF_STANDARD_CODE_MIDAS
+  mappedDataItems:
+    - sourceDataItem:
+        columnName: REF_STANDARD_CODE_MIDAS_SK
+      targetColumn:
+        columnName: REF_STANDARD_CODE_MIDAS_SK
+    - sourceDataItem:
+        columnName: OMD_INSERT_DATETIME
+      targetColumn:
+        columnName: OMD_FIRST_SEEN_DATETIME
+    - sourceDataItem:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+      targetColumn:
+        columnName: OMD_INSERT_MODULE_INSTANCE_ID
+    - sourceDataItem:
+        columnName: OMD_RECORD_SOURCE
+      targetColumn:
+        columnName: OMD_RECORD_SOURCE
+    - sourceDataItem:
+        columnName: STANDARD_CODE_ID
+      targetColumn:
+        columnName: STANDARD_CODE_ID

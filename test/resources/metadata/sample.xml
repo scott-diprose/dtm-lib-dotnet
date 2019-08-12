@@ -18,35 +18,7 @@
         <connectionKey>HSTG</connectionKey>
       </dataStore>
       <language>T-SQL</language>
-      <code>declare @start_datetime datetime2 = ?,
-    @end_datetime datetime2 = ?;
-
-select POLICY_SK,
-    OMD_INSERT_DATETIME,
-    OMD_RECORD_SOURCE,
-    POLICY_ID
-from    (
-        select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.POLICY_ID) + N'_' + OMD_RECORD_SOURCE) as POLICY_SK, /* REM SK calcs to be pulled from TEAM metadata */
-            OMD_INSERT_DATETIME,
-            OMD_RECORD_SOURCE,
-            intendedDataType.POLICY_ID,
-            row_number() over (partition by intendedDataType.POLICY_ID
-                                order by OMD_INSERT_DATETIME asc
-                                ) as rn
-        from dbo.HSTG_MIDAS_H_POLICY_PREMIUM POLICY_PREMIUM
-            cross apply (
-                    select convert(bigint, POLICY_PREMIUM.POLICY_ID) as POLICY_ID
-                    ) as intendedDataType
-        where OMD_INSERT_DATETIME &gt;= @start_datetime
-            and OMD_INSERT_DATETIME &lt; @end_datetime
-        ) src
-where src.rn = 1
-    and not exists (
-        select null
-        from EDW_200_Integration_Layer.dbo.HUB_POLICY with (nolock)
-        where HUB_POLICY.POLICY_SK = src.POLICY_SK
-        );
-      </code>
+      <code>declare @start_datetime datetime2 = ?,\n    @end_datetime datetime2 = ?;\n\nselect POLICY_SK,\n    OMD_INSERT_DATETIME,\n    OMD_RECORD_SOURCE,\n    POLICY_ID\nfrom    (\n        select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.POLICY_ID) + N'_' + OMD_RECORD_SOURCE) as POLICY_SK, /* REM SK calcs to be pulled from TEAM metadata */\n            OMD_INSERT_DATETIME,\n            OMD_RECORD_SOURCE,\n            intendedDataType.POLICY_ID,\n            row_number() over (partition by intendedDataType.POLICY_ID\n                                order by OMD_INSERT_DATETIME asc\n                                ) as rn\n        from dbo.HSTG_MIDAS_H_POLICY_PREMIUM POLICY_PREMIUM\n            cross apply (\n                    select convert(bigint, POLICY_PREMIUM.POLICY_ID) as POLICY_ID\n                    ) as intendedDataType\n        where OMD_INSERT_DATETIME &gt;= @start_datetime\n            and OMD_INSERT_DATETIME &lt; @end_datetime\n        ) src\nwhere src.rn = 1\n    and not exists (\n        select null\n        from EDW_200_Integration_Layer.dbo.HUB_POLICY with (nolock)\n        where HUB_POLICY.POLICY_SK = src.POLICY_SK\n        );\n</code>
     </source>
     <target>
       <dataStore>
@@ -56,153 +28,115 @@ where src.rn = 1
       <objectName>HUB_POLICY</objectName>
     </target>
     <mappedDataItems>
-      <sourceDataItem>
-        <columnName>POLICY_SK</columnName>
-      </sourceDataItem>
-      <targetColumn>
-        <columnName>POLICY_SK</columnName>
-      </targetColumn>
-    </mappedDataItems>
-    <mappedDataItems>
-      <sourceDataItem>
-        <columnName>OMD_INSERT_DATETIME</columnName>
-      </sourceDataItem>
-      <targetColumn>
-        <columnName>OMD_FIRST_SEEN_DATETIME</columnName>
-      </targetColumn>
-    </mappedDataItems>
-    <mappedDataItems>
-      <sourceDataItem>
-        <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
-      </sourceDataItem>
-      <targetColumn>
-        <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
-      </targetColumn>
-    </mappedDataItems>
-    <mappedDataItems>
-      <sourceDataItem>
-        <columnName>OMD_RECORD_SOURCE</columnName>
-      </sourceDataItem>
-      <targetColumn>
-        <columnName>OMD_RECORD_SOURCE</columnName>
-      </targetColumn>
-    </mappedDataItems>
-    <mappedDataItems>
-      <sourceDataItem>
-        <columnName>POLICY_ID</columnName>
-      </sourceDataItem>
-      <targetColumn>
-        <columnName>POLICY_ID</columnName>
-      </targetColumn>
+      <MappedDataItem>
+        <sourceDataItem>
+          <columnName>POLICY_SK</columnName>
+        </sourceDataItem>
+        <targetColumn>
+          <columnName>POLICY_SK</columnName>
+        </targetColumn>
+      </MappedDataItem>
+      <MappedDataItem>
+        <sourceDataItem>
+          <columnName>OMD_INSERT_DATETIME</columnName>
+        </sourceDataItem>
+        <targetColumn>
+          <columnName>OMD_FIRST_SEEN_DATETIME</columnName>
+        </targetColumn>
+      </MappedDataItem>
+      <MappedDataItem>
+        <sourceDataItem>
+          <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
+        </sourceDataItem>
+        <targetColumn>
+          <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
+        </targetColumn>
+      </MappedDataItem>
+      <MappedDataItem>
+        <sourceDataItem>
+          <columnName>OMD_RECORD_SOURCE</columnName>
+        </sourceDataItem>
+        <targetColumn>
+          <columnName>OMD_RECORD_SOURCE</columnName>
+        </targetColumn>
+      </MappedDataItem>
+      <MappedDataItem>
+        <sourceDataItem>
+          <columnName>POLICY_ID</columnName>
+        </sourceDataItem>
+        <targetColumn>
+          <columnName>POLICY_ID</columnName>
+        </targetColumn>
+      </MappedDataItem>
     </mappedDataItems>
   </MappedDataSet>
   <MappedDataSet>
-    <mappingName>m_sync_HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX</mappingName>
-    <mappingDescription>HSTG</mappingDescription>
+    <mappingName>m_200_HUB_REF_STANDARD_CODE_MIDAS_MIDAS_STD_CODES_FN</mappingName>
+    <mappingDescription>HUB</mappingDescription>
     <enabled>true</enabled>
     <schemaExt>
       <AzP_EDW>
         <underlyingSource>
           <objectSchema>dbo</objectSchema>
-          <objectName>HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX</objectName>
+          <objectName>HSTG_MIDAS_STD_CODES_FN</objectName>
         </underlyingSource>
       </AzP_EDW>
     </schemaExt>
     <source>
       <dataStore>
-        <connectionKey>HSTG_PRD</connectionKey>
+        <connectionKey>HSTG</connectionKey>
       </dataStore>
       <language>T-SQL</language>
-      <code>select * from dbo.HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX where OMD_INSERT_DATETIME &amp;gt; ? AND OMD_INSERT_DATETIME &amp;lt;= ?;</code>
+      <code>declare @start_datetime datetime2 = ?,\n    @end_datetime datetime2 = ?;\n\nselect REF_STANDARD_CODE_MIDAS_SK,\n    OMD_INSERT_DATETIME,\n    OMD_RECORD_SOURCE,\n    STANDARD_CODE_ID\nfrom    (\n        select convert(nvarchar(100), convert(nvarchar(100), intendedDataType.STANDARD_CODE_ID) + N'_' + OMD_RECORD_SOURCE) as REF_STANDARD_CODE_MIDAS_SK, /* REM SK calcs to be pulled from TEAM metadata */\n            OMD_INSERT_DATETIME,\n            OMD_RECORD_SOURCE,\n            intendedDataType.STANDARD_CODE_ID,\n            row_number() over (partition by intendedDataType.STANDARD_CODE_ID\n                                order by OMD_INSERT_DATETIME asc\n                                ) as rn\n        from dbo.HSTG_MIDAS_STD_CODES_FN(@start_datetime, @end_datetime) STD_CODES\n            cross apply (\n                    select convert(bigint, STD_CODES.STANDARD_CODE_ID) as STANDARD_CODE_ID\n                    ) as intendedDataType\n        ) src\nwhere src.rn = 1\n    and not exists (\n        select null\n        from EDW_200_Integration_Layer.dbo.HUB_REF_STANDARD_CODE_MIDAS with (nolock)\n        where HUB_REF_STANDARD_CODE_MIDAS.REF_STANDARD_CODE_MIDAS_SK = src.REF_STANDARD_CODE_MIDAS_SK\n        );\n</code>
     </source>
     <target>
       <dataStore>
-        <connectionKey>HSTG</connectionKey>
+        <connectionKey>INT</connectionKey>
       </dataStore>
       <objectSchema>dbo</objectSchema>
-      <objectName>HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX</objectName>
+      <objectName>HUB_REF_STANDARD_CODE_MIDAS</objectName>
     </target>
     <mappedDataItems>
-      <mappedDataItem>
+      <MappedDataItem>
         <sourceDataItem>
-          <columnName>HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX_SK</columnName>
+          <columnName>REF_STANDARD_CODE_MIDAS_SK</columnName>
         </sourceDataItem>
         <targetColumn>
-          <columnName>HSTG_ABS_LOCALITY_2011_SA2_CODING_INDEX_SK</columnName>
+          <columnName>REF_STANDARD_CODE_MIDAS_SK</columnName>
         </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
+      </MappedDataItem>
+      <MappedDataItem>
         <sourceDataItem>
-          <columnName>LOCALITY_ID</columnName>
+          <columnName>OMD_INSERT_DATETIME</columnName>
         </sourceDataItem>
         <targetColumn>
-          <columnName>LOCALITY_ID</columnName>
+          <columnName>OMD_FIRST_SEEN_DATETIME</columnName>
         </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
+      </MappedDataItem>
+      <MappedDataItem>
         <sourceDataItem>
-          <columnName>LOCALITY_NAME</columnName>
+          <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
         </sourceDataItem>
         <targetColumn>
-          <columnName>LOCALITY_NAME</columnName>
+          <columnName>OMD_INSERT_MODULE_INSTANCE_ID</columnName>
         </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
+      </MappedDataItem>
+      <MappedDataItem>
         <sourceDataItem>
-          <columnName>LOCALITY_TYPE</columnName>
+          <columnName>OMD_RECORD_SOURCE</columnName>
         </sourceDataItem>
         <targetColumn>
-          <columnName>LOCALITY_TYPE</columnName>
+          <columnName>OMD_RECORD_SOURCE</columnName>
         </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
+      </MappedDataItem>
+      <MappedDataItem>
         <sourceDataItem>
-          <columnName>POSTCODE</columnName>
+          <columnName>STANDARD_CODE_ID</columnName>
         </sourceDataItem>
         <targetColumn>
-          <columnName>POSTCODE</columnName>
+          <columnName>STANDARD_CODE_ID</columnName>
         </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
-        <sourceDataItem>
-          <columnName>STATE</columnName>
-        </sourceDataItem>
-        <targetColumn>
-          <columnName>STATE</columnName>
-        </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
-        <sourceDataItem>
-          <columnName>SA2_MAINCODE</columnName>
-        </sourceDataItem>
-        <targetColumn>
-          <columnName>SA2_MAINCODE</columnName>
-        </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
-        <sourceDataItem>
-          <columnName>SA2_NAME</columnName>
-        </sourceDataItem>
-        <targetColumn>
-          <columnName>SA2_NAME</columnName>
-        </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
-        <sourceDataItem>
-          <columnName>RATIO</columnName>
-        </sourceDataItem>
-        <targetColumn>
-          <columnName>RATIO</columnName>
-        </targetColumn>
-      </mappedDataItem>
-      <mappedDataItem>
-        <sourceDataItem>
-          <columnName>PERCENT</columnName>
-        </sourceDataItem>
-        <targetColumn>
-          <columnName>PERCENT</columnName>
-        </targetColumn>
-      </mappedDataItem>
+      </MappedDataItem>
     </mappedDataItems>
   </MappedDataSet>
 </ArrayOfMappedDataSet>
