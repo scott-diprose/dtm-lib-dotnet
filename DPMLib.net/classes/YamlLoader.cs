@@ -129,7 +129,7 @@ namespace DPMLib
     public static void SaveToFile(MappedDataSet mappedDataSet, string filePath)
     {
       ISerializer yamlDotNet = new SerializerBuilder().Build();
-      using (TextWriter outputFile = new StreamWriter(filePath, true))
+      using (TextWriter outputFile = new StreamWriter(filePath, false))
       {
         yamlDotNet.Serialize(outputFile, mappedDataSet, typeof(MappedDataSet));
       }
