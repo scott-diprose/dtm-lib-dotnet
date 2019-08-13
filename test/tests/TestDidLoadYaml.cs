@@ -15,8 +15,8 @@ namespace test
     public TestDidLoadYaml(ITestOutputHelper output)
     {
       this.output = output;
-      mappings = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
-      //mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata", "INT");
+      //mappings = YamlLoader.LoadFromFile(@"..\..\..\resources\metadata\sample.yaml");
+      mappings = YamlLoader.LoadFromFolder(@"..\..\..\resources\metadata");
     }
 
     /* Start of Tests */
@@ -25,6 +25,7 @@ namespace test
     public void EnsureLoadedSomething()
     {
       Assert.NotEmpty(mappings);
+      Assert.NotEmpty(mappings[0].mappedDataItems);
     }
 
     // [Fact]
