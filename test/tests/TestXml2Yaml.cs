@@ -92,11 +92,19 @@ for xml path('MappedDataSet'), root('ArrayOfMappedDataSet')
     /* Start of Tests */
 
     [Fact]
+    public void EnsureCanOutputToSingleFile()
+    {
+      YamlLoader.SaveToFile(loadedMappings.MappedDataSets, Path.Combine(@"C:\Users\sdiprose\dev\debug\_all_mappings.yaml"));
+    }
+
+    [Fact]
     public void EnsureCanOutputToFile()
     {
       foreach (MappedDataSet mapping in loadedMappings.MappedDataSets)
       {
-        YamlLoader.SaveToFile(mapping, Path.Combine(@"C:\Users\sdiprose\dev\debug\", mapping.mappingName + @".yaml"));
+        List<MappedDataSet> fileListing = new List<MappedDataSet>();
+        fileListing.Add(mapping);
+        YamlLoader.SaveToFile(fileListing, Path.Combine(@"C:\Users\sdiprose\dev\debug\", mapping.mappingName + @".yaml"));
       }
     }
 
