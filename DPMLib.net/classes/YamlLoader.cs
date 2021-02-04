@@ -126,12 +126,22 @@ namespace DPMLib
       return accumLoaded;
     }
 
-    public static void SaveToFile(List<MappedDataSet> mappedDataSets, string filePath)
+    public static string SaveToString(MappedDataSet mappedDataSet, string filePath)
+    {
+      using (TextWriter textWriter = new StringWriter())
+      {
+        ISerializer yamlDotNet = new SerializerBuilder().Build();
+        yamlDotNet.Serialize(textWriter, mappedDataSet, typeof(MappedDataSet));
+        return textWriter.ToString();
+      }
+    }
+
+    public static void SaveToFile(MappedDataSet mappedDataSet, string filePath)
     {
       ISerializer yamlDotNet = new SerializerBuilder().Build();
-      using (TextWriter outputFile = new StreamWriter(filePath, false))
+      using (TextWriter outputFile = new StreamWriter(filePath, true))
       {
-        yamlDotNet.Serialize(outputFile, mappedDataSets, typeof(List<MappedDataSet>));
+        yamlDotNet.Serialize(outputFile, mappedDataSet, typeof(MappedDataSet));
       }
     }
   }
